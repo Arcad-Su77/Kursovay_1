@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 import static java.lang.Math.abs;
 
 public class EmployeeBook {
@@ -33,7 +32,6 @@ public class EmployeeBook {
             }
         }
     }
-
     public void printAllDepartment() {
         System.out.println("ID\tОклад отдела\tНаименование отдела\n----------------------------");
         for (Department dep : departments) {

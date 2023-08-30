@@ -13,7 +13,6 @@ public class Department {
         this.name = name;
         this.salary = payment;
     }
-
     public String getName() {
         return name;
     }

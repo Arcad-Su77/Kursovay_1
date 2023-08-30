@@ -30,9 +30,6 @@ public class Employee {
         return (flag) ? (getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ". " + getLastName()) :
                 (getLastName() + " " + getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ".");
     }
-
-
-
     public static int getCount() {
         return count;
     }
@@ -44,7 +41,6 @@ public class Employee {
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = upCharName(firstName);
     }
@@ -56,7 +52,6 @@ public class Employee {
     public void setLastName(String lastName) {
         this.lastName = upCharName(lastName);
     }
-
     public String getMidleName() {
         return midleName;
     }
@@ -74,9 +69,6 @@ public class Employee {
     public void setScaleRatio(float scaleRatio) {
         this.scaleRatio = scaleRatio;
     }
-
-   
-
     @Override
     public String toString() {
         return "Employee{" +
