@@ -1,19 +1,18 @@
 import java.util.Objects;
 
-public class Departament {
+public class Department {
    public static final int size = 5;
     private static int count;
-    private final int departamentID;
+    private final int departmentID;
     private String name; //Название отдела
     private double salary;  // Зарплата в отделе
 
-    public Departament(String name, int payment) {
+    public Department(String name, int payment) {
         count++;
-        this.departamentID = count;
+        this.departmentID = count;
         this.name = name;
         this.salary = payment;
     }
-
     public String getName() {
         return name;
     }
@@ -24,7 +23,7 @@ public class Departament {
 
     public double getSalary() { return salary; }
 
-    public int getDepartamentID() { return departamentID; }
+    public int getDepartmentID() { return departmentID; }
 
     public void setSalary(int payment) {
         this.salary = payment;
@@ -33,7 +32,7 @@ public class Departament {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Departament that)) return false;
+        if (!(o instanceof Department that)) return false;
         return getSalary() == that.getSalary() && Objects.equals(getName(), that.getName());
     }
 
@@ -44,8 +43,8 @@ public class Departament {
 
     @Override
     public String toString() {
-        return "Departament{" +
-                "departamentID=" + departamentID +
+        return "Department{" +
+                "departmentID=" + departmentID +
                 ", name='" + name + '\'' +
                 ", salary=" + salary +
                 '}';
