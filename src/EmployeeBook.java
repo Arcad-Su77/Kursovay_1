@@ -2,7 +2,9 @@ import java.util.Scanner;
 import static java.lang.Math.abs;
 
 public class EmployeeBook {
-
+    private double miniSalary;
+    private double midleSalary;
+    private double maxiSalary;
     private final Employee[] employees;
     private final Department[] departments;
 
@@ -15,6 +17,41 @@ public class EmployeeBook {
     public EmployeeBook(Employee[] inEmployee, Department[] inDepartment) {
         this.employees = inEmployee;
         this.departments = inDepartment;
+        updateVolume();
+    }
+    public double getMiniSalary() {
+        return miniSalary;
+    }
+    public void setMiniSalary(double miniSalary) {
+        this.miniSalary = miniSalary;
+    }
+    public double getMidleSalary() {
+        return midleSalary;
+    }
+    public void setMidleSalary(double midleSalary) {
+        this.midleSalary = midleSalary;
+    }
+    public double getMaxiSalary() {
+        return maxiSalary;
+    }
+    public void setMaxiSalary(double maxiSalary) {
+        this.maxiSalary = maxiSalary;
+    }
+    private void updateVolume() {
+        setMidleSalary(getSalary(employees[0]));
+        setMidleSalary(getSumSalary()/Employee.getCount());
+        setMaxiSalary(getSalary(employees[0]));
+        for (Employee emp : employees) {
+            if (emp != null) {
+                double salary = getSalary(emp);
+                if (salary < getMiniSalary()) {
+                    setMiniSalary(salary);
+                }
+                if (salary > getMaxiSalary()) {
+                    setMaxiSalary(salary);
+                }
+            }
+        }
     }
 
     // Реализуем метод printAllEmployee (распечатать всех сотрудников)
@@ -25,7 +62,7 @@ public class EmployeeBook {
                 System.out.println(emp.getEmployeeID() +
                         "\t" + emp.getEmployeeFIO() +
                         "\t" + getSalary(emp)  +
-                        "\t" + emp.getDepartmentID()+ " " + departments[emp.getDepartmentID() - 1].getName());
+                        "\t" + emp.getDepartmentID()+ " " + departments[emp.getDepartmentIndexID()].getName());
             }
         }
     }
@@ -35,7 +72,7 @@ public class EmployeeBook {
             if (emp != null) {
                 System.out.println(emp.getEmployeeID() +
                         "\t" + emp.getEmployeeFIO() +
-                        "\t" + emp.getDepartmentID()+ " " + departments[emp.getDepartmentID() - 1].getName() +
+                        "\t" + emp.getDepartmentID()+ " " + departments[emp.getDepartmentIndexID()].getName() +
                         "\t" + emp.getScaleRatio());
             }
         }
@@ -66,59 +103,60 @@ public class EmployeeBook {
         return (double) Math.round(salary * 100) / 100;
     }
     public String getEmployee(Employee emp) {
-    	return emp.getEmployeeFIO(emp.FIO_RIGHT) + ", Отдел:" + departments[emp.getDepartmentIndexID()].getName() + ", Зарплата: " + getSalary(emp);
+    	return emp.getEmployeeShortFIO() + ", Отдел:" + departments[emp.getDepartmentIndexID()].getName() + ", Зарплата: " + getSalary(emp);
     }
     public Employee findEmployeeMiniSalary() {
-        Employee retEmployee = null;
+        Employee retEmployee;
          // MINI_SALARY
-        double mini = getSalary(employees[0]);
+        setMiniSalary(getSalary(employees[0]));
         retEmployee = employees[0];
         for (Employee emp : employees) {
             if (emp != null) {
-                if (getSalary(emp) < mini) {
-                    mini = getSalary(emp);
+                double empFor = getSalary(emp);
+                if (empFor < getMiniSalary()) {
+                    setMiniSalary(empFor);
                     retEmployee = emp;
                 }
             }
         }
         return retEmployee;
     }
-    
     public Employee findEmployeeMaxiSalary() { // MAXI_SALARY
-        Employee retEmployee = null;
-        double maxi = getSalary(employees[0]);
+        Employee retEmployee;
+        setMaxiSalary(getSalary(employees[0]));
         retEmployee = employees[0];
         for (Employee emp : employees) {
             if (emp != null) {
-                if (getSalary(emp) > maxi) {
-                    maxi = getSalary(emp);
+                double empFor = getSalary(emp);
+                if (empFor > getMaxiSalary()) {
+                    setMaxiSalary(empFor);
                     retEmployee = emp;
                 }
             }
         }
         return retEmployee;
     }
-    
     public Employee findEmployeeMidleSalary() { // MIDLE_SALARY
     	Employee retEmployee = null;
-        double midle = getSumSalary()/Employee.getCount();
-        double delta = abs(midle - getSalary(employees[0]));
+        setMidleSalary(getSumSalary() / Employee.getCount());
+        double delta = abs(getMidleSalary() - getSalary(employees[0]));
         for (Employee emp : employees) {
             if (emp != null) {
-                if ((abs(midle - getSalary(emp))) < delta) {
-                    delta = abs(midle - getSalary(emp));
+                double empFor = abs(getMidleSalary() - getSalary(emp));
+                if (empFor < delta) {
+                    delta = empFor;
                     retEmployee = emp;
                 }
             }
         }
         return retEmployee;
     }
-    
     public void editDepartment(Scanner scan) {
         printAllDepartment();
-        System.out.println("Для изменения информации о департаменте, введите новые данные.\n" +
-                "формат ввода  <ID> <Оклад> <Название отдела> \n" +
-                "Данные разделяйте пробелами, если данные изменять не нужно то используете *");
+        System.out.println("""
+                Для изменения информации о департаменте, введите новые данные.
+                формат ввода  <ID> <Оклад> <Название отдела>\s
+                Данные разделяйте пробелами, если данные изменять не нужно то используете *""");
         String[] inEdit = {"*", "*", "*"};
         try {
             inEdit = scan.nextLine().split(" ");
@@ -141,14 +179,17 @@ public class EmployeeBook {
                         break;
                     }
                 }
-            } printAllDepartment();
+            }
+            printAllDepartment();
+            updateVolume();
         } else System.out.println("Вводите корректно: <ID> <Оклад> <Наименование>");
     }
     public void editEmployee(Scanner scan) {
         printEditEmployee();
-        System.out.println("Для изменения информации о сотруднике, введите новые данные.\n" +
-                "формат ввода  [<ID>] <Фамилия> <Имя> <Отчество> <Отдел> <Коэф.зарплаты>\n" +
-                "Данные разделяйте пробелами, если данные изменять не нужно то используете *");
+        System.out.println("""
+                Для изменения информации о сотруднике, введите новые данные.
+                формат ввода  [<ID>] <Фамилия> <Имя> <Отчество> <Отдел> <Коэф.зарплаты>
+                Данные разделяйте пробелами, если данные изменять не нужно то используете *""");
         String[] inEdit = {"*", "*", "*", "*", "*", "*"};
         try {
             inEdit = scan.nextLine().split(" ");
@@ -178,7 +219,9 @@ public class EmployeeBook {
                         break;
                     }
                 }
-            } printAllEmployee();
+            }
+            printAllEmployee();
+            updateVolume();
         } else System.out.println("[<ID>] <Фамилия> <Имя> <Отчество> <Отдел> <Коэф.зарплаты>");
     }
 }

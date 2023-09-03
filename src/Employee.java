@@ -1,14 +1,13 @@
 public class Employee {
     public static final int size = 10;
+
     private static int count;
     private final int employeeID;
-    public static final boolean FIO_RIGHT = false;
-    public static final boolean FIO_LEFT = true;
     private String firstName; //    – name - для имени
     private String lastName; //– lastName - для фамилии
     private String midleName; //– middleName - для отчества
     private int departmentID; // номер отдела
-    private double fullSalary;  // Зарплата
+//    private double fullSalary;  // Зарплата
     private float scaleRatio; // коэффициент оклада
 
     public Employee(String lastName, String firstName, String midleName,
@@ -21,6 +20,7 @@ public class Employee {
         this.departmentID = departmentID;
         this.scaleRatio = salaryRate;
     }
+
     private String upCharName(String Name) {
         char firstChar = Name.charAt(0); // получаем первый символ
         char upperFirstChar = Character.toUpperCase(firstChar); // преобразуем его в нижний регистр
@@ -29,9 +29,8 @@ public class Employee {
     public String getEmployeeFIO() {
         return getLastName() + " " + getFirstName() + " " + getMidleName() + " ";
     }
-    public String getEmployeeFIO(boolean flag) {
-        return (flag) ? (getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ". " + getLastName()) :
-                (getLastName() + " " + getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ".");
+    public String getEmployeeShortFIO() {
+        return (getLastName() + " " + getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ". ");
     }
     public static int getCount() {
         return count;
@@ -83,7 +82,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", midleName='" + midleName + '\'' +
                 ", departmentID=" + departmentID +
-                ", fullSalary=" + fullSalary +
+        //        ", fullSalary=" + fullSalary +
                 ", scaleRatio=" + scaleRatio +
                 '}';
     }
