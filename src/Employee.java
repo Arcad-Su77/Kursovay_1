@@ -26,6 +26,9 @@ public class Employee {
         char upperFirstChar = Character.toUpperCase(firstChar); // преобразуем его в нижний регистр
         return upperFirstChar + Name.substring(1);
     }
+    public String getEmployeeFIO() {
+        return getLastName() + " " + getFirstName() + " " + getMidleName() + " ";
+    }
     public String getEmployeeFIO(boolean flag) {
         return (flag) ? (getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ". " + getLastName()) :
                 (getLastName() + " " + getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ".");

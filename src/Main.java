@@ -35,6 +35,10 @@ public class Main {
                 case 7 -> menuRoute(7);
                 case 8 -> employeeBook.printAllDepartment();
                 case 9 -> employeeBook.editDepartment(scan);
+                case 10 -> employeeBook.printAllEmployee();
+                case 11 -> employeeBook.editEmployee(scan);
+                case 12 -> employeeBook.printAllDepartment();
+                case 13 -> employeeBook.editDepartment(scan);
                 default -> System.out.println("Вы не выбрали задание [1-0]1: " + taskNumberRun);
             }
             if (MENU_ROUTER == 0)
