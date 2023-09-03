@@ -26,6 +26,9 @@ public class Employee {
         char upperFirstChar = Character.toUpperCase(firstChar); // преобразуем его в нижний регистр
         return upperFirstChar + Name.substring(1);
     }
+    public String getEmployeeFIO() {
+        return getLastName() + " " + getFirstName() + " " + getMidleName() + " ";
+    }
     public String getEmployeeFIO(boolean flag) {
         return (flag) ? (getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ". " + getLastName()) :
                 (getLastName() + " " + getFirstName().charAt(0) + ". " + getMidleName().charAt(0) + ".");
@@ -58,9 +61,11 @@ public class Employee {
     public void setMidleName(String midleName) {
         this.midleName = upCharName(midleName);
     }
-
     public int getDepartmentID() {
         return departmentID;
+    }
+    public int getDepartmentIndexID() {
+        return departmentID-1;
     }
     public void setDepartmentID(int departmentID) {
         this.departmentID = departmentID;
@@ -69,6 +74,7 @@ public class Employee {
     public void setScaleRatio(float scaleRatio) {
         this.scaleRatio = scaleRatio;
     }
+    
     @Override
     public String toString() {
         return "Employee{" +

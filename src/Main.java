@@ -16,21 +16,24 @@ public class Main {
             System.out.println("\n\n==================================");
             switch (MENU_ROUTER) {
                 case 0 -> System.out.println(DataProperties.menu_0);
-                case 6 -> System.out.println(DataProperties.menu_1);
+                case 7 -> System.out.println(DataProperties.menu_1);
             }
             try {
                 taskNumberRun = Integer.parseInt(scan.nextLine());
             } catch (Exception e) {
                 taskNumberRun = -1;
                 //e.printStackTrace(); // Выводит сообщение об ошибке
-            }
+            }           
             switch ((MENU_ROUTER +taskNumberRun)) {
                 case 0 -> EXIT = false;
                 case 1 -> employeeBook.printAllEmployee();    //Список сотрудников
                 case 2 -> System.out.println("Сумма затрат на зарплату: "  + employeeBook.getSumSalary());
-                case 3 -> System.out.println("Сотрудник с минимальной зарплатой: " + employeeBook.findEmployee(EmployeeBook.MINI_SALARY).getEmployeeFIO(Employee.FIO_RIGHT));
-                case 4 -> System.out.println("Сотрудник с средней зарплатой: " + employeeBook.findEmployee(EmployeeBook.MIDLE_SALARY).getEmployeeFIO(Employee.FIO_LEFT));
-                case 5 -> System.out.println("Сотрудник с максимальной зарплатой: " + employeeBook.findEmployee(EmployeeBook.MAXI_SALARY).getEmployeeFIO(Employee.FIO_RIGHT));
+                case 3 -> System.out.println("Сотрудник с минимальной зарплатой: " + 
+                							employeeBook.getEmployee(employeeBook.findEmployeeMiniSalary()));
+                case 4 -> System.out.println("Сотрудник с средней зарплатой: " + 
+                							employeeBook.getEmployee(employeeBook.findEmployeeMidleSalary()));
+                case 5 -> System.out.println("Сотрудник с максимальной зарплатой: " + 
+                							employeeBook.getEmployee(employeeBook.findEmployeeMaxiSalary()));
                 case 6 -> System.out.println("Средня зарплата сотрудников: " + employeeBook.getSumSalary() / Employee.getCount());
                 case 7 -> menuRoute(7);
                 case 8 -> employeeBook.printAllDepartment();

@@ -3,9 +3,6 @@ import static java.lang.Math.abs;
 
 public class EmployeeBook {
 
-    public static final int MINI_SALARY = 1;
-    public static final int MAXI_SALARY = 2;
-    public static final int MIDLE_SALARY = 3;
     private final Employee[] employees;
     private final Department[] departments;
 
@@ -26,7 +23,7 @@ public class EmployeeBook {
         for (Employee emp : employees) {
             if (emp != null) {
                 System.out.println(emp.getEmployeeID() +
-                        "\t" + emp.getEmployeeFIO(Employee.FIO_RIGHT) +
+                        "\t" + emp.getEmployeeFIO() +
                         "\t" + getSalary(emp)  +
                         "\t" + emp.getDepartmentID()+ " " + departments[emp.getDepartmentID() - 1].getName());
             }
@@ -53,56 +50,59 @@ public class EmployeeBook {
         return sumSalary;
     }
     public double getSalary(Employee emp) {
-        double oklad = departments[emp.getDepartmentID()-1].getSalary();
+        double oklad = departments[emp.getDepartmentIndexID()].getSalary();
         double salary = oklad * emp.getScaleRatio();
         return (double) Math.round(salary * 100) / 100;
     }
-
-    public Employee findEmployee(int route) {
+    public String getEmployee(Employee emp) {
+    	return emp.getEmployeeFIO(emp.FIO_RIGHT) + ", Отдел:" + departments[emp.getDepartmentIndexID()].getName() + ", Зарплата: " + getSalary(emp);
+    }
+    public Employee findEmployeeMiniSalary() {
         Employee retEmployee = null;
-        switch (route) {
-            case 1 -> { // MINI_SALARY
-                double mini = getSalary(employees[0]);
-                retEmployee = employees[0];
-                for (Employee emp : employees) {
-                    if (emp != null) {
-                        if (getSalary(emp) < mini) {
-                            mini = getSalary(emp);
-                            retEmployee = emp;
-                        }
-                    }
+         // MINI_SALARY
+        double mini = getSalary(employees[0]);
+        retEmployee = employees[0];
+        for (Employee emp : employees) {
+            if (emp != null) {
+                if (getSalary(emp) < mini) {
+                    mini = getSalary(emp);
+                    retEmployee = emp;
                 }
             }
-            case 2 -> { // MAXI_SALARY
-                double maxi = getSalary(employees[0]);
-                retEmployee = employees[0];
-                for (Employee emp : employees) {
-                    if (emp != null) {
-                        if (getSalary(emp) > maxi) {
-                            maxi = getSalary(emp);
-                            retEmployee = emp;
-                        }
-                    }
-                }
-            }
-            case 3 -> { // MIDLE_SALARY
-                double midle = getSumSalary()/Employee.getCount();
-                double delta = abs(midle - getSalary(employees[0]));
-                for (Employee emp : employees) {
-                    if (emp != null) {
-                        if ((abs(midle - getSalary(emp))) < delta) {
-                            delta = abs(midle - getSalary(emp));
-                            retEmployee = emp;
-                        }
-                    }
-                }
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + route);
         }
         return retEmployee;
-
     }
-
+    
+    public Employee findEmployeeMaxiSalary() { // MAXI_SALARY
+        Employee retEmployee = null;
+        double maxi = getSalary(employees[0]);
+        retEmployee = employees[0];
+        for (Employee emp : employees) {
+            if (emp != null) {
+                if (getSalary(emp) > maxi) {
+                    maxi = getSalary(emp);
+                    retEmployee = emp;
+                }
+            }
+        }
+        return retEmployee;
+    }
+    
+    public Employee findEmployeeMidleSalary() { // MIDLE_SALARY
+    	Employee retEmployee = null;
+        double midle = getSumSalary()/Employee.getCount();
+        double delta = abs(midle - getSalary(employees[0]));
+        for (Employee emp : employees) {
+            if (emp != null) {
+                if ((abs(midle - getSalary(emp))) < delta) {
+                    delta = abs(midle - getSalary(emp));
+                    retEmployee = emp;
+                }
+            }
+        }
+        return retEmployee;
+    }
+    
     public void editDepartment(Scanner scan) {
         printAllDepartment();
         System.out.println("Для изменения информации о департаменте, введите новые данные.\n" +
@@ -130,7 +130,7 @@ public class EmployeeBook {
                         break;
                     }
                 }
-            }
+            } printAllDepartment();
         } else System.out.println("Вводите корректно: <ID> <Оклад> <Наименование>");
     }
 }
