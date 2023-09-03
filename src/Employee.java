@@ -61,9 +61,11 @@ public class Employee {
     public void setMidleName(String midleName) {
         this.midleName = upCharName(midleName);
     }
-
     public int getDepartmentID() {
         return departmentID;
+    }
+    public int getDepartmentIndexID() {
+        return departmentID-1;
     }
     public void setDepartmentID(int departmentID) {
         this.departmentID = departmentID;
@@ -72,6 +74,7 @@ public class Employee {
     public void setScaleRatio(float scaleRatio) {
         this.scaleRatio = scaleRatio;
     }
+    
     @Override
     public String toString() {
         return "Employee{" +
